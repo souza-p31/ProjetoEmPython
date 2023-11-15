@@ -1,58 +1,89 @@
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 
-print('Contratante:')
-contratante_nome = input('Nome: ')
-contratante_rua = input('Rua e número: ')
-contratante_cidade = input('Cidade: ')
-contratante_id = input('Identificação: ')
+class GeradorDocumento():
+    
+    def __init__(self):
+        self.contratante_nome = None
+        self.contratante_rua = None
+        self.contratante_cidade = None
+        self.contratante_id = None
 
-print()
-print('Contratado:')
-contratado_nome = input('Nome: ')
-contratado_rua = input('Rua e número: ')
-contratado_cidade = input('Cidade: ')
-contratado_id = input('Identificação: ')
-
-documento = Document()
-titulo_principal = documento.add_heading('Contrato de Prestação de Serviços', level=0).paragraph_format
-titulo_principal.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        self.contratado_nome = None
+        self.contratado_rua = None
+        self.contratado_cidade = None
+        self.contratado_id = None
 
 
-titulo = documento.add_heading('Identificação das partes contratantes', level=1).paragraph_format
-titulo.alignment = WD_ALIGN_PARAGRAPH.CENTER
-documento.add_paragraph('')
+    def informacoes(self):
+        print('*** Contratante ***')
+        self.contratante_nome = input('Nome: ')
+        self.contratante_rua = input('Rua: ')
+        self.contratante_cidade = input('Cidade: ')
+        self.contratante_id = input('Identificação: ')
+        print()
+        print('*** Contratado ***')
+        self.contratado_nome = input('Nome: ')
+        self.contratado_rua = input('Rua: ')
+        self.contratado_cidade = input('Cidade: ')
+        self.contratado_id = input('Identificação: ')
 
 
-paragrafo1 = documento.add_paragraph('')
-r1 = paragrafo1.add_run('Contratante: ').bold = True
-paragrafo1.add_run(f'{contratante_nome}, com sede em {contratante_rua} ({contratante_cidade}), inscrito sob o nº {contratante_id}.')
-documento.add_paragraph('')
+    def contrato_serviço(self):
+        documento = Document()
+        titulo_principal = documento.add_heading('Contrato de Prestação de Serviços', level=0).paragraph_format
+        titulo_principal.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
 
-paragrafo2 = documento.add_paragraph('')
-r2 = paragrafo2.add_run('Contratado: ').bold = True
-paragrafo2.add_run(f'{contratado_nome}, com sede em {contratado_rua} ({contratado_cidade}), inscrito sob o nº {contratado_id}.')
+        titulo = documento.add_heading('Identificação das partes contratantes', level=1).paragraph_format
+        titulo.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        documento.add_paragraph('')
 
 
-paragrafo3 = documento.add_paragraph('2. CLÁUSULA SEGUNDA - DO REGIME DE EXECUÇÃO\
-2.1. O serviço contratado será realizado por execução indireta, sob o regime de empreitada\
-por menor preço global.\
-3. CLÁUSULA TERCEIRA – DA FORMA DE PRESTAÇÃO DO SERVIÇO\
-3.1. Será considerada como unidade de pagamento a lauda completa com 1.000 (mil)\
-caracteres, eletronicamente contados pelo processador de textos no texto final, descontados\
-os espaços em branco, para a quantificação dos trabalhos.\
-3.2. O cálculo estimativo do número de laudas dar-se-á pelo uso do menu “ferramentas” e do.\
-3.3.3. “REGIME URGENTÍSSIMO” - produção acima de 20,01 (vinte vírgula zero um) laudas.')
+        paragrafo1 = documento.add_paragraph('')
+        r1 = paragrafo1.add_run('Contratante: ').bold = True
+        paragrafo1.add_run(f'{self.contratante_nome}, com sede em {self.contratante_rua} ({self.contratante_cidade}), inscrito sob o nº {self.contratante_id}.')
+        documento.add_paragraph('')
 
-documento.add_paragraph('')
-documento.add_paragraph('')
-documento.add_paragraph('')
-documento.add_paragraph('')
 
-assinatura = documento.add_paragraph('')
-assinatura.add_run('Assinatura ').bold = True
-assinatura.add_run('_________________________________________________')
-assinatura.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        paragrafo2 = documento.add_paragraph('')
+        r2 = paragrafo2.add_run('Contratado: ').bold = True
+        paragrafo2.add_run(f'{self.contratado_nome}, com sede em {self.contratado_rua} ({self.contratado_cidade}), inscrito sob o nº {self.contratado_id}.')
 
-documento.save('contrato.docx')
+
+        paragrafo3 = documento.add_paragraph('2. CLÁUSULA SEGUNDA - DO REGIME DE EXECUÇÃO\
+        2.1. O serviço contratado será realizado por execução indireta, sob o regime de empreitada\
+        por menor preço global.\
+        3. CLÁUSULA TERCEIRA – DA FORMA DE PRESTAÇÃO DO SERVIÇO\
+        3.1. Será considerada como unidade de pagamento a lauda completa com 1.000 (mil)\
+        caracteres, eletronicamente contados pelo processador de textos no texto final, descontados\
+        os espaços em branco, para a quantificação dos trabalhos.\
+        3.2. O cálculo estimativo do número de laudas dar-se-á pelo uso do menu “ferramentas” e do.\
+        3.3.3. “REGIME URGENTÍSSIMO” - produção acima de 20,01 (vinte vírgula zero um) laudas.')
+
+        documento.add_paragraph('')
+        documento.add_paragraph('')
+        documento.add_paragraph('')
+        documento.add_paragraph('')
+        documento.add_paragraph('')
+
+        assinatura_contratante = documento.add_paragraph('')
+        assinatura_contratante.add_run('Assinatura contratante: ').bold = True
+        assinatura_contratante.add_run('_________________________________________________')
+        assinatura_contratante.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+        documento.add_paragraph('')
+
+        assinatura_contratado = documento.add_paragraph('')
+        assinatura_contratado.add_run('Assinatura contratado: ').bold = True
+        assinatura_contratado.add_run('_________________________________________________')
+        assinatura_contratado.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+        documento.save('contrato.docx')
+        print('Seu contrato foi salvo na pasta!')
+        return
+
+
+GeradorDocumento = GeradorDocumento()
+GeradorDocumento.informacoes()
+GeradorDocumento.contrato_serviço()
